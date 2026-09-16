@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@theme {
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-ink: #050505;
+  --color-panel: #0a0a0a;
+  --color-raised: #111111;
+  --color-line: rgba(232, 228, 217, 0.12);
+  --color-line-strong: rgba(232, 228, 217, 0.22);
+  --color-abalone: #e8e4d9;
+  --color-mute: rgba(232, 228, 217, 0.62);
+  --color-faint: rgba(232, 228, 217, 0.38);
+  --color-teal: #14b8a6;
+  --color-teal-dim: #0f766e;
+}
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #050505;
+  color: #e8e4d9;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #14b8a6; color: #050505; }
+.glow-cta {
+  box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.45), 0 0 28px rgba(20, 184, 166, 0.18);
+}
+.grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(232, 228, 217, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232, 228, 217, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 72%);
+}
