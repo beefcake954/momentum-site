@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import Mark from "./components/Mark.jsx";
-import CalEmbed from "./components/CalEmbed.jsx";
 import Loader from "./components/Loader.jsx";
 const packages = [
   {
@@ -267,7 +266,14 @@ export default function App() {
             No funnel. No twelve-page form. Pick a slot. I show up.
           </p>
           <div className="mt-10">
-            <CalEmbed />
+            <a
+              href="https://cal.com/momentumdiscovery"
+              target="_blank"
+              rel="noreferrer"
+              className="glow-cta inline-block bg-teal px-6 py-3 font-mono text-[12px] uppercase tracking-[0.18em] text-ink"
+            >
+              Book a call — 5–10pm ET
+            </a>
           </div>
         </section>
       </main>
