@@ -105,13 +105,14 @@ export default function App() {
             South Florida · AI for local businesses
           </p>
           <h1 className="mt-6 max-w-4xl font-serif text-[44px] leading-[1.02] tracking-tight md:text-[72px]">
-            We help local businesses become well-oiled machines.
+            Honest work for local businesses.
+            <br />
+            No guru language.
           </h1>
           <p className="mt-8 max-w-2xl text-[17px] leading-relaxed text-[var(--color-mute)] md:text-[19px]">
-            New shops. Small shops. Family shops. Websites, brand, lead bots,
-            follow-up, custom systems — whatever is drowning the week. Creative
-            outlet. We can create it. Honesty. Integrity. Simple words. Making
-            money is the plus.
+            Sites, bots, custom systems — whatever is drowning the week. If it
+            is stuck, outdated, or still done by hand for no reason, we build
+            past it. New shops. Small shops. Family shops. Integrity first.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a href="#book" className="glow-cta bg-teal px-6 py-3 font-mono text-[12px] uppercase tracking-[0.18em] text-ink">
