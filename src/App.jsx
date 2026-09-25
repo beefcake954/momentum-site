@@ -79,14 +79,12 @@ export default function App() {
       <div className="pointer-events-none fixed inset-0 grid-fade" />
       <header className="sticky top-0 z-30 border-b border-[var(--color-line)] bg-[rgba(5,5,5,0.88)] backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <a href="#top" className="flex items-center gap-3">
-            <Mark />
-            <div className="leading-none">
-              <div className="font-serif text-lg tracking-tight">Momentum</div>
-              <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--color-faint)]">
-                Pompano Beach
-              </div>
-            </div>
+          <a href="#top" className="flex items-center pl-1">
+            <img
+              src="/momentum-logo.png"
+              alt="Momentum"
+              className="h-10 w-auto object-contain md:h-12"
+            />
           </a>
           <nav className="hidden items-center gap-8 text-[13px] text-[var(--color-mute)] sm:flex">
             <a href="#marine" className="hover:text-abalone">Marine</a>
