@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @theme {
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif: "Boska", ui-serif, Georgia, serif;
+  --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Switzer", ui-sans-serif, system-ui, sans-serif;
   --color-ink: #050505;
   --color-panel: #0a0a0a;
   --color-raised: #111111;
@@ -14,7 +14,9 @@
   --color-teal: #14b8a6;
   --color-teal-dim: #0f766e;
 }
+
 html { scroll-behavior: smooth; }
+
 body {
   margin: 0;
   background: #050505;
@@ -22,14 +24,140 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+
 ::selection { background: #14b8a6; color: #050505; }
+
+/* ── CTA glow ── */
 .glow-cta {
   box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.45), 0 0 28px rgba(20, 184, 166, 0.18);
 }
+
+/* ── Grid overlay ── */
 .grid-fade {
   background-image:
     linear-gradient(to right, rgba(232, 228, 217, 0.045) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(232, 228, 217, 0.045) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 72%);
+}
+
+/* ── Hero ambient glow ── */
+.hero-glow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 500px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 184, 166, 0.06) 0%,
+    rgba(20, 184, 166, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Entrance animations ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Card hover lift ── */
+.card-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-hover:hover {
+  border-color: rgba(20, 184, 166, 0.25);
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.06);
+  transform: translateY(-2px);
+}
+
+/* ── Teal underline link hover ── */
+.link-hover {
+  position: relative;
+}
+.link-hover::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #14b8a6;
+  transition: width 0.3s ease;
+}
+.link-hover:hover::after {
+  width: 100%;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .card-hover:hover {
+    transform: none !important;
+  }
+}
+
+/* ── Button lift (Chris) ── */
+.btn-lift {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+}
+.btn-lift::after { content: "→"; transition: transform 200ms ease; }
+.btn-lift:hover { transform: translateY(-2px); }
+.btn-lift:hover::after { transform: translateX(4px); }
+.glow-cta.btn-lift:hover { box-shadow: 0 0 0 1px rgba(20,184,166,0.7), 0 0 40px rgba(20,184,166,0.35); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-lift, .btn-lift::after { transition: none; }
+  .btn-lift:hover, .btn-lift:hover::after { transform: none; }
 }
