@@ -451,3 +451,73 @@ footer {
   content-visibility: auto;
   contain-intrinsic-size: auto 760px;
 }
+
+/* ── Flow graph (agent / systems) ── */
+.flow-packet, .flow-hit { opacity: 0; transform-box: view-box; }
+.flow-packet { transform-origin: 0 0; }
+.flow.is-drawn .flow-packet,
+.flow.is-drawn .flow-hit {
+  animation-duration: var(--flow-dur, 6.5s);
+  animation-timing-function: linear;
+  animation-delay: 2s;
+  animation-fill-mode: both;
+}
+.flow-loop.is-drawn .flow-packet,
+.flow-loop.is-drawn .flow-hit { animation-iteration-count: infinite; }
+.flow-once.is-drawn .flow-packet,
+.flow-once.is-drawn .flow-hit { animation-iteration-count: 1; }
+.flow.is-paused .flow-packet,
+.flow.is-paused .flow-hit { animation-play-state: paused; }
+
+/* ── Terminal typing: an ink cover slides off in 1ch steps ── */
+.term-line { position: relative; display: inline-block; overflow: hidden; vertical-align: top; }
+.term-cover {
+  position: absolute;
+  inset: 0;
+  background: var(--color-panel);
+  transform: translateX(0);
+}
+.term-cover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  bottom: 0.35em;
+  width: 0.6em;
+  background: #14b8a6;
+  opacity: 0;
+}
+.term.is-on .term-cover {
+  animation: term-type var(--dur) steps(var(--n), end) var(--d) forwards;
+}
+.term.is-on .term-cover::before { animation: term-caret var(--dur) step-end var(--d) forwards; }
+@keyframes term-type { to { transform: translateX(100%); } }
+@keyframes term-caret { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ── Circuit-trace divider ── */
+.trace-h, .trace-v, .trace-via { position: absolute; display: block; }
+.trace-h { height: 1px; background: rgba(232, 228, 217, 0.18); transform: scaleX(0); transform-origin: left; }
+.trace-v { width: 1px; background: rgba(232, 228, 217, 0.18); transform: scaleY(0); transform-origin: top; }
+.trace-h.is-teal, .trace-v.is-teal { background: rgba(20, 184, 166, 0.6); }
+.trace-via { width: 7px; height: 7px; border: 1px solid rgba(232, 228, 217, 0.35); background: #080808; opacity: 0; }
+.trace-via.is-teal { border-color: #14b8a6; background: #14b8a6; }
+.trace .trace-h, .trace .trace-v { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s); }
+.trace .trace-via { transition: opacity 500ms ease var(--d, 0s); }
+.trace.is-on .trace-h, .trace.is-on .trace-v { transform: none; }
+.trace.is-on .trace-via { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-packet { display: none; }
+  .flow-hit { animation: none !important; opacity: 0.9; }
+  .term-cover { display: none; }
+  .trace .trace-h, .trace .trace-v, .trace .trace-via { transition: none; transform: none; opacity: 1; }
+}
+
+/* ── Section scaffolding ── */
+.wrap { margin-inline: auto; max-width: 1360px; padding-inline: 1rem; }
+@media (min-width: 640px) { .wrap { padding-inline: 1.5rem; } }
+@media (min-width: 768px) { .wrap { padding-inline: 2.5rem; } }
+.label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; }
+.h-display { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.015em; line-height: 0.98; }
+.body-lg { font-size: 17px; line-height: 1.65; }
+@media (min-width: 768px) { .body-lg { font-size: 18px; } }

@@ -1,4 +1,6 @@
-import useReveal from "../hooks/useReveal";
+import Reveal from "./ui/Reveal";
+import FlowGraph from "./graphics/FlowGraph";
+import Terminal from "./graphics/Terminal";
 
 const props = [
   [
@@ -18,21 +20,50 @@ const props = [
   ],
 ];
 
+const FLOW = [
+  { x: 50, y: 60, label: "lead", labelAt: "above" },
+  { x: 200, y: 160, label: "bot", labelAt: "below" },
+  { x: 350, y: 60, label: "CRM", labelAt: "above" },
+  { x: 500, y: 160, label: "follow-up", labelAt: "below" },
+];
+
+const STATUS = [
+  "agent: new lead → routed",
+  "bot: first reply sent",
+  "crm: owner assigned",
+  "follow-up: scheduled",
+];
+
 export default function ValueProps() {
-  const ref = useReveal();
   return (
-    <section ref={ref} className="reveal border-y border-[var(--color-line)] bg-panel">
-      <div className="mx-auto grid max-w-6xl gap-0 md:grid-cols-3">
-        {props.map(([n, t, b]) => (
-          <div
-            key={n}
-            className="border-[var(--color-line)] px-5 py-8 md:border-r md:last:border-r-0"
-          >
-            <div className="font-mono text-[11px] tracking-[0.2em] text-teal">{n}</div>
-            <h2 className="mt-3 font-serif text-2xl">{t}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--color-mute)]">{b}</p>
+    <section className="relative border-t border-[var(--color-line)] py-20 md:py-32">
+      <div className="wrap grid gap-14 lg:grid-cols-12 lg:gap-6">
+        <div className="lg:col-span-5">
+          <div className="lg:sticky lg:top-32">
+            <Reveal>
+              <FlowGraph nodes={FLOW} className="mx-auto max-w-[520px] pt-8 lg:mx-0" />
+            </Reveal>
+            <Reveal delay={0.1}>
+              <Terminal lines={STATUS} className="mt-12 max-w-[520px]" />
+            </Reveal>
           </div>
-        ))}
+        </div>
+
+        <div className="lg:col-span-6 lg:col-start-7">
+          {props.map(([n, t, b], i) => (
+            <Reveal
+              key={n}
+              delay={i * 0.06}
+              className="grid grid-cols-[2.75rem_1fr] border-t border-[var(--color-line)] py-10 first:pt-10 md:grid-cols-[4rem_1fr] md:py-14"
+            >
+              <div className="label pt-3 text-teal">{n}</div>
+              <div>
+                <h2 className="h-display text-[clamp(2.1rem,5vw,3.4rem)] text-abalone">{t}</h2>
+                <p className="body-lg mt-5 max-w-[34rem] text-[var(--color-mute)]">{b}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
