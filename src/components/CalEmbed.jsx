@@ -1,42 +1,22 @@
 import { CAL_LINK, CAL_ORIGIN } from "../config";
+import { Arrow } from "./Hero";
 
 export default function CalEmbed() {
   const href = `${CAL_ORIGIN}/${CAL_LINK}`;
   return (
-    <div className="border border-[var(--color-line)] bg-[var(--color-panel)] p-8 md:p-12">
-      <div className="flex flex-col items-start gap-6">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-teal">
-            Discovery call · 20 minutes
-          </p>
-          <p className="mt-3 max-w-md text-[var(--color-mute)]">
-            Pick a slot. I show up. No funnel. No twelve-page form.
-          </p>
-        </div>
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="glow-cta inline-flex items-center gap-3 bg-teal px-8 py-4 font-mono text-[12px] uppercase tracking-[0.18em] text-ink transition-shadow hover:shadow-[0_0_0_1px_rgba(20,184,166,0.6),0_0_40px_rgba(20,184,166,0.25)]"
-        >
-          Open calendar
-          <svg
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            />
-          </svg>
-        </a>
-        <p className="font-mono text-[10px] tracking-wide text-[var(--color-faint)]">
-          {href}
+    <div className="grid gap-10 border-y border-[var(--color-line)] py-10 md:grid-cols-12 md:gap-6 md:py-14">
+      <div className="md:col-span-7">
+        <p className="label text-teal">Discovery call · 20 minutes</p>
+        <p className="body-lg mt-4 max-w-md text-[var(--color-mute)]">
+          Pick a slot. I show up. No funnel. No twelve-page form.
         </p>
+      </div>
+      <div className="flex flex-col items-stretch gap-4 md:col-span-5 md:items-end md:self-end">
+        <a href={href} target="_blank" rel="noopener noreferrer" className="btn-primary is-large">
+          Open calendar
+          <Arrow />
+        </a>
+        <p className="label break-all text-[var(--color-faint)] md:text-right">{href}</p>
       </div>
     </div>
   );

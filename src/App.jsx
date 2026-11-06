@@ -8,6 +8,8 @@ import Packages from "./components/Packages.jsx";
 import HowItWorks from "./components/HowItWorks.jsx";
 import BookSection from "./components/BookSection.jsx";
 import Footer from "./components/Footer.jsx";
+import MobileBook from "./components/MobileBook.jsx";
+import { installAnchorScroll } from "./lib/anchors";
 
 // The pixel-arc loader is static markup in index.html (it paints before this
 // bundle arrives). We tell it the app is mounted; it fires "momentum:reveal"
@@ -24,6 +26,8 @@ export default function App() {
     boot.appReady();
     return () => window.removeEventListener("momentum:reveal", onReveal);
   }, []);
+
+  useEffect(() => installAnchorScroll(), []);
 
   return (
     <div className="min-h-screen text-abalone">
@@ -73,6 +77,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <MobileBook />
     </div>
   );
 }

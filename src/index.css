@@ -603,3 +603,60 @@ footer {
   .holo .hb-sheen, .holo .hb-scanline { animation: none !important; opacity: 0; }
   .holo-tilt { transform: none !important; }
 }
+
+/* ── Large CTA (booking) ── */
+.btn-primary.is-large { min-height: 60px; padding: 0 1.75rem; font-size: 13px; }
+@media (min-width: 768px) { .btn-primary.is-large { min-width: 320px; } }
+
+/* ── Timeline (how a call goes) ── */
+.timeline-rule {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-line-strong);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+@media (min-width: 768px) {
+  .timeline-rule { left: 0; right: 0; top: 4px; bottom: auto; width: auto; height: 1px; transform: scaleX(0); transform-origin: left; }
+}
+.timeline-stop {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 9px;
+  height: 9px;
+  background: #14b8a6;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 500ms ease var(--d), transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
+}
+@media (min-width: 768px) { .timeline-stop { top: 0; } }
+.timeline.is-on .timeline-rule { transform: none; }
+.timeline.is-on .timeline-stop { opacity: 1; transform: none; }
+
+/* ── Mobile booking bar ── */
+.mobile-book {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, #080808 60%, rgba(8, 8, 8, 0));
+  transform: translateY(110%);
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.mobile-book.is-shown { transform: none; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-rule, .timeline-stop, .mobile-book { transition: none; }
+}
+
+/* anchors land below the sticky header */
+section[id] { scroll-margin-top: 64px; }
+@media (min-width: 768px) { section[id] { scroll-margin-top: 72px; } }
