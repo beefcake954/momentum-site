@@ -1,4 +1,4 @@
-import useReveal from "../hooks/useReveal";
+import Reveal from "./ui/Reveal";
 
 const work = [
   {
@@ -24,50 +24,56 @@ const work = [
   },
 ];
 
-export default function Work() {
-  const ref = useReveal();
+function Status({ tag }) {
+  const live = tag.startsWith("Live");
   return (
-    <section id="work" ref={ref} className="reveal border-t border-[var(--color-line)] bg-panel py-14 md:py-24">
-      <div className="mx-auto max-w-6xl px-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-teal">
-          Work you can check
-        </p>
-        <h2 className="mt-4 font-serif text-4xl md:text-5xl">
-          On the floor. Not in a case-study PDF.
-        </h2>
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {work.map((item) => (
-            <article
+    <span className="label inline-flex items-center gap-3 text-teal">
+      <span aria-hidden="true" className={`inline-block h-2 w-2 ${live ? "bg-teal" : "border border-teal"}`} />
+      {tag}
+    </span>
+  );
+}
+
+export default function Work() {
+  return (
+    <section id="work" className="relative border-t border-[var(--color-line)] py-20 md:py-32">
+      <div className="wrap">
+        <Reveal>
+          <p className="label text-teal">Work you can check</p>
+          <h2 className="h-display mt-6 max-w-[16ch] text-[clamp(2.6rem,6vw,5rem)] text-abalone">
+            On the floor. Not in a case-study PDF.
+          </h2>
+        </Reveal>
+
+        <ol className="mt-16 border-t border-[var(--color-line)] md:mt-24">
+          {work.map((item, i) => (
+            <Reveal
+              as="li"
               key={item.name}
-              className="card-hover flex flex-col border border-[var(--color-line)] bg-ink p-6"
+              delay={i * 0.06}
+              className="work-row group relative grid gap-5 border-b border-[var(--color-line)] py-10 lg:grid-cols-12 lg:gap-6 lg:py-14"
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal">
-                {item.tag}
+              <div className="lg:col-span-2 lg:pt-4">
+                <Status tag={item.tag} />
               </div>
-              <h3 className="mt-4 font-serif text-2xl">{item.name}</h3>
-              <p className="mt-1 font-mono text-[11px] text-[var(--color-faint)]">
-                {item.meta}
-              </p>
-              <p className="mt-5 flex-1 text-sm leading-relaxed text-[var(--color-mute)]">
-                {item.body}
-              </p>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link-hover mt-6 inline-block font-mono text-[11px] uppercase tracking-[0.16em] text-teal"
-                >
-                  Open site →
-                </a>
-              ) : (
-                <span className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-faint)]">
-                  {item.foot}
-                </span>
-              )}
-            </article>
+              <div className="lg:col-span-5">
+                <h3 className="work-name h-display text-[clamp(2.4rem,4.6vw,4rem)] text-abalone">{item.name}</h3>
+                <p className="label mt-3 text-[var(--color-faint)]">{item.meta}</p>
+              </div>
+              <div className="lg:col-span-5 lg:pt-3">
+                <p className="text-[16px] leading-relaxed text-[var(--color-mute)] md:text-[17px]">{item.body}</p>
+                {item.href ? (
+                  <a href={item.href} target="_blank" rel="noreferrer" className="btn-text mt-6">
+                    Open site →
+                  </a>
+                ) : (
+                  <p className="label mt-6 text-[var(--color-faint)]">{item.foot}</p>
+                )}
+              </div>
+              <span aria-hidden="true" className="work-rule pointer-events-none absolute inset-x-0 -bottom-px h-px origin-left bg-teal" />
+            </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
