@@ -1,5 +1,6 @@
 import Reveal from "./ui/Reveal";
 import FlowGraph from "./graphics/FlowGraph";
+import BrainGraph from "./graphics/BrainGraph";
 import { Arrow } from "./Hero";
 
 const packages = [
@@ -57,13 +58,6 @@ const SYSTEM_FLOW = [
   { x: 120, y: 90, label: "CRM", labelAt: "below" },
   { x: 210, y: 30, label: "pipeline", labelAt: "above" },
   { x: 290, y: 90, label: "alert", labelAt: "below" },
-];
-const CUSTOM_FLOW = [
-  { x: 40, y: 40, label: "leads", labelAt: "above" },
-  { x: 190, y: 110, label: "CRM", labelAt: "below" },
-  { x: 340, y: 40, label: "dashboards", labelAt: "above" },
-  { x: 490, y: 110, label: "agents", labelAt: "below" },
-  { x: 620, y: 40, label: "team", labelAt: "above" },
 ];
 
 function Tier({ p, i }) {
@@ -132,14 +126,12 @@ export default function Packages() {
           <div className="lg:col-span-5">
             <p className="label text-teal">04</p>
             <h3 className="h-display mt-6 text-[clamp(2.6rem,5vw,3.5rem)] text-abalone">Custom</h3>
-            <p className="body-lg mt-6 max-w-[36rem] text-[var(--color-mute)]">
-              Command-class. A full operating system scoped to your
-              business — CRM, lead bots, dashboards, AI agents, and
-              whatever the operation needs to run without guessing. Not just
-              marine. Not just leads. If the whole team is going to live in
-              it, that is Custom. We scope it, take a deposit, then a
-              retainer so it keeps moving. Same $175 an hour. You will know
-              the number before we build.
+            <div className="mt-3 font-mono text-[22px] tabular-nums tracking-[-0.01em] text-abalone md:text-[24px]">Deposit + retainer</div>
+            <p className="label mt-2 text-[var(--color-faint)]">Same $175 an hour. You will know the number before we build.</p>
+            <p className="body-lg mt-8 max-w-[36rem] text-[var(--color-mute)]">
+              A full operating system for the whole business. Phone app. Full
+              context on pricing, service, and repair orders. Agents that watch
+              for errors and inventory changes. A Brain you can talk to.
             </p>
             <a href="#book" className="btn-outline is-teal mt-10">
               Talk Custom
@@ -147,7 +139,7 @@ export default function Packages() {
             </a>
           </div>
           <div className="lg:col-span-6 lg:col-start-7 lg:self-center">
-            <FlowGraph nodes={CUSTOM_FLOW} width={660} height={150} duration={7.5} className="pt-6" />
+            <BrainGraph className="mx-auto max-w-[640px]" />
           </div>
         </Reveal>
       </div>

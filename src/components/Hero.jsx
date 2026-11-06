@@ -71,9 +71,11 @@ export default function Hero({ ready = true }) {
             style={at(0)}
             className="rv hero-sub max-w-[34rem] text-[var(--color-mute)] lg:order-2 lg:col-span-6 lg:col-start-7"
           >
-            Sites, bots, systems — whatever is drowning the week. If it is
-            stuck, outdated, or still done by hand for no reason, we build past
-            it. New shops. Small shops. Family shops. Integrity first.
+            Seamless systems that run a whole business, all the way down to a
+            simple CRM and sales tools. Sites, bots, agents, and a Brain that
+            knows the shop. If it is stuck, outdated, or still done by hand for
+            no reason, we build past it. New shops. Small shops. Family shops.
+            Integrity first.
           </p>
 
           <div

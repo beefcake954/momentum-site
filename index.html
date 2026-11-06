@@ -16,8 +16,9 @@
     <link rel="preload" as="image" type="image/webp" imagesrcset="/momentum-logo-204.webp 204w, /momentum-logo-408.webp 408w" imagesizes="(min-width: 768px) 187px, 153px" />
   </head>
   <body>
-    <!-- Pixel-arc loader. Lives in the HTML so it paints on the first frame,
-         before the app bundle arrives. The app tells it when to leave. -->
+    <!-- Pixel-arc loader. Plays on every full page load. Lives in the HTML so
+         it paints on the first frame; the page renders underneath it and the
+         app tells it when everything is ready. -->
     <div id="boot" class="boot" role="status" aria-live="polite" aria-busy="true">
       <img class="boot-scene" src="/loader/scene-bg.jpg" alt="" width="480" height="320" fetchpriority="high" decoding="async" />
       <div class="boot-vignette" aria-hidden="true"></div>
@@ -26,14 +27,11 @@
     </div>
     <script>
       (function () {
-        var KEY = "momentum:booted";
         var MIN_MS = 1800; // exit starts here; 600ms fade -> ~2.4s total
         var MIN_REDUCED_MS = 1100;
         var EXIT_MS = 600;
         var el = document.getElementById("boot");
         var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var seen = false;
-        try { seen = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
         var s = { app: false, min: false, done: false };
 
         function reveal() {
@@ -42,17 +40,12 @@
           window.dispatchEvent(new Event("momentum:reveal"));
           if (!el) return;
           el.classList.add("is-leaving");
-          setTimeout(function () {
-            el.remove();
-            try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
-          }, reduce ? 0 : EXIT_MS);
+          setTimeout(function () { el.remove(); }, reduce ? 0 : EXIT_MS);
         }
         window.__momentumBoot = {
           revealed: function () { return s.done; },
           appReady: function () { s.app = true; if (s.min) reveal(); },
         };
-
-        if (seen) { el.remove(); el = null; s.min = true; return; }
 
         // Build the arc: 8 letters, each an 11-layer extrusion plus a face.
         var title = "MOMENTUM", depth = 11, mid = (title.length - 1) / 2, html = "";

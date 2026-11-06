@@ -496,6 +496,46 @@ footer {
   .holo-tilt { transform: none !important; }
 }
 
+/* ── Brain graph (Custom tier) ── */
+.brain .br-feed { stroke: rgba(232, 228, 217, 0.26); stroke-width: 1; }
+.brain .br-mesh { stroke: rgba(20, 184, 166, 0.42); stroke-width: 0.9; }
+.brain .br-fold { stroke: rgba(232, 228, 217, 0.22); stroke-width: 1; }
+.brain .br-outline { stroke: rgba(94, 234, 212, 0.85); stroke-width: 1.3; stroke-linejoin: round; }
+.brain .br-node { fill: #080808; stroke: rgba(94, 234, 212, 0.7); stroke-width: 1; }
+.brain .br-hit { fill: #14b8a6; opacity: 0; }
+.brain .br-pulse { fill: #5eead4; opacity: 0; transform-box: view-box; transform-origin: 0 0; }
+.brain .br-pulse.is-hop { fill: #ccfbf1; }
+.brain .br-sheen { opacity: 0; transform-box: view-box; }
+@keyframes br-flash {
+  0% { opacity: 0; }
+  2% { opacity: 1; }
+  22%, 100% { opacity: 0; }
+}
+@keyframes br-sheen {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 1; }
+  55% { opacity: 1; transform: translateX(860px); }
+  56%, 100% { opacity: 0; transform: translateX(860px); }
+}
+.brain.is-drawn .br-pulse,
+.brain.is-drawn .br-hit {
+  animation-duration: var(--br-cycle, 8s);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+.brain.brain-loop.is-drawn .br-pulse,
+.brain.brain-loop.is-drawn .br-hit { animation-iteration-count: infinite; }
+.brain.brain-once.is-drawn .br-pulse,
+.brain.brain-once.is-drawn .br-hit { animation-iteration-count: 1; }
+.brain.brain-loop.is-drawn .br-sheen { animation: br-sheen 10s cubic-bezier(0.45, 0, 0.55, 1) 3.2s infinite; }
+.brain.is-paused .br-pulse,
+.brain.is-paused .br-hit,
+.brain.is-paused .br-sheen { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .brain .br-pulse, .brain .br-sheen { animation: none !important; opacity: 0; }
+  .brain .br-hit { animation: none !important; opacity: 0.9; }
+}
+
 /* ── Large CTA (booking) ── */
 .btn-primary.is-large { min-height: 60px; padding: 0 1.75rem; font-size: 13px; }
 @media (min-width: 768px) { .btn-primary.is-large { min-width: 320px; } }

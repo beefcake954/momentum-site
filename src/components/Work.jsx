@@ -5,7 +5,7 @@ const work = [
     tag: "Live · partner",
     name: "The Boat Kings",
     meta: "Pompano Beach · marine dealership",
-    body: "Momentum partnered with The Boat Kings, a high-volume marine dealership in Pompano Beach. Full custom CRM with a dashboard every employee logs into, lead bots, and an AI voice assistant — running on the floor every day. They sell the boats. We build the systems.",
+    body: "Live. A full system with a phone app, service and RO context, monitoring agents, and a talking Brain. We work with The Boat Kings inside the store.",
     foot: "Live · Pompano",
   },
   {

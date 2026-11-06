@@ -15,13 +15,16 @@ const SECTIONS = [ValueProps, Difference, Marine, Work, Packages, HowItWorks, Bo
 // Everything below the hero lives in its own chunk (with Motion). Sections
 // mount one per task, in transitions, so no single commit blocks the main
 // thread. They are off-screen, so nothing visible shifts as they arrive.
-export default function Below() {
+export default function Below({ onMounted }) {
   const [n, setN] = useState(1);
   useEffect(() => {
-    if (n >= SECTIONS.length) return;
+    if (n >= SECTIONS.length) {
+      onMounted?.();
+      return;
+    }
     const id = setTimeout(() => startTransition(() => setN((v) => v + 1)), 0);
     return () => clearTimeout(id);
-  }, [n]);
+  }, [n, onMounted]);
   return (
     <LazyMotion features={domAnimation} strict>
       {SECTIONS.slice(0, n).map((S, i) => (
