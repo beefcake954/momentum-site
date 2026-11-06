@@ -46,10 +46,12 @@ export default function Hero({ ready = true }) {
 
         <h1 className="hero-h1 relative z-[1] mt-7 font-serif text-abalone md:mt-10">
           {LINES.map((line, i) => (
+            // the trailing space keeps the heading's text intact for screen
+            // readers and copy-paste ("for local", not "forlocal")
             <span key={line} className="line-mask">
               <span className="line" style={{ "--d": `${(0.08 + i * 0.11).toFixed(2)}s` }}>
                 {line}
-              </span>
+              </span>{" "}
             </span>
           ))}
         </h1>

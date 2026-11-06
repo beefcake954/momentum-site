@@ -9,8 +9,8 @@ export default function Difference() {
         <Reveal className="lg:col-span-6">
           <p className="label text-[var(--color-faint)]">The difference</p>
           <h2 className="h-display mt-6 text-[clamp(3rem,9vw,7.25rem)] text-abalone">
-            <span className="block">Honesty.</span>
-            <span className="block md:pl-[0.6em]">Integrity.</span>
+            <span className="block">Honesty.</span>{" "}
+            <span className="block md:pl-[0.6em]">Integrity.</span>{" "}
             <span className="block md:pl-[1.2em]">Simplicity.</span>
           </h2>
         </Reveal>
