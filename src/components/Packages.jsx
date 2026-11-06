@@ -1,4 +1,6 @@
-import useReveal from "../hooks/useReveal";
+import Reveal from "./ui/Reveal";
+import FlowGraph from "./graphics/FlowGraph";
+import { Arrow } from "./Hero";
 
 const packages = [
   {
@@ -49,81 +51,88 @@ const packages = [
   },
 ];
 
-export default function Packages() {
-  const ref = useReveal();
-  return (
-    <section id="packages" ref={ref} className="reveal mx-auto max-w-6xl px-5 py-14 md:py-24">
-      <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--color-faint)]">
-        Packages
-      </p>
-      <h2 className="mt-4 font-serif text-4xl md:text-5xl">
-        A simple package to start. Builds become hourly.
-      </h2>
-      <p className="mt-5 max-w-2xl text-[var(--color-mute)]">
-        No fake "was $18k" line. Start is a flat number after a 20-minute
-        call. Everything past that is $175 an hour with the hours written
-        down first.
-      </p>
-      <div className="mt-12 grid gap-4 lg:grid-cols-3">
-        {packages.map((p) => (
-          <article
-            key={p.id}
-            className={`card-hover flex flex-col border bg-panel p-6 ${
-              p.featured
-                ? "border-teal glow-cta"
-                : "border-[var(--color-line)]"
-            }`}
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="font-mono text-[11px] tracking-[0.2em] text-teal">
-                {p.id}
-              </span>
-              {p.featured ? (
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-teal">
-                  Most shops land here
-                </span>
-              ) : null}
-            </div>
-            <h3 className="mt-4 font-serif text-3xl">{p.name}</h3>
-            <div className="mt-2 font-mono text-2xl tabular-nums text-abalone">
-              {p.price}
-            </div>
-            <p className="mt-1 font-mono text-[11px] text-[var(--color-faint)]">
-              {p.time}
-            </p>
-            <p className="mt-5 text-sm text-[var(--color-mute)]">{p.pitch}</p>
-            <ul className="mt-6 flex-1 space-y-2 text-sm text-abalone">
-              {p.includes.map((line) => (
-                <li key={line} className="flex gap-2">
-                  <span className="text-teal">▸</span>
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-6 font-mono text-[11px] text-[var(--color-faint)]">
-              {p.not}
-            </p>
-            <a
-              href="#book"
-              className={`btn-lift justify-center mt-8 px-4 py-3 text-center font-mono text-[11px] uppercase tracking-[0.16em] ${
-                p.featured
-                  ? "bg-teal text-ink hover:bg-[#17c4b0]"
-                  : "border border-[var(--color-line-strong)] text-abalone hover:border-teal hover:text-teal"
-              }`}
-            >
-              Book this
-            </a>
-          </article>
-        ))}
-      </div>
+// Line graphs for the system tiers (labels describe the flow, no claims).
+const SYSTEM_FLOW = [
+  { x: 30, y: 30, label: "form", labelAt: "above" },
+  { x: 120, y: 90, label: "CRM", labelAt: "below" },
+  { x: 210, y: 30, label: "pipeline", labelAt: "above" },
+  { x: 290, y: 90, label: "alert", labelAt: "below" },
+];
+const CUSTOM_FLOW = [
+  { x: 40, y: 40, label: "leads", labelAt: "above" },
+  { x: 190, y: 110, label: "CRM", labelAt: "below" },
+  { x: 340, y: 40, label: "dashboards", labelAt: "above" },
+  { x: 490, y: 110, label: "agents", labelAt: "below" },
+  { x: 620, y: 40, label: "team", labelAt: "above" },
+];
 
-      {/* Custom tier */}
-      <div className="mt-4 border border-[var(--color-line)] bg-panel p-6 md:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="font-mono text-[11px] tracking-[0.2em] text-teal">04</p>
-            <h3 className="mt-2 font-serif text-3xl">Custom</h3>
-            <p className="mt-3 max-w-2xl text-[var(--color-mute)]">
+function Tier({ p, i }) {
+  return (
+    <Reveal
+      as="article"
+      delay={i * 0.08}
+      className={`tier relative flex flex-col border-t py-10 lg:border-t-0 lg:px-8 lg:py-12 lg:first:pl-0 lg:last:pr-0 ${
+        p.featured ? "border-teal" : "border-[var(--color-line)]"
+      } ${i > 0 ? "lg:border-l lg:border-l-[var(--color-line)]" : ""}`}
+    >
+      {p.featured ? <span aria-hidden="true" className="absolute inset-x-0 top-0 hidden h-px bg-teal lg:block lg:right-8" /> : null}
+      <div className="flex items-baseline justify-between gap-4">
+        <span className="label text-teal">{p.id}</span>
+        {p.featured ? <span className="label text-teal">Most shops land here</span> : null}
+      </div>
+      <h3 className="h-display mt-6 text-[clamp(2.6rem,5vw,3.5rem)] text-abalone">{p.name}</h3>
+      <div className="mt-3 font-mono text-[22px] tabular-nums tracking-[-0.01em] text-abalone md:text-[24px]">{p.price}</div>
+      <p className="label mt-2 text-[var(--color-faint)]">{p.time}</p>
+      {p.name === "System" ? <FlowGraph nodes={SYSTEM_FLOW} width={320} height={120} duration={5.5} className="mt-10 max-w-[320px]" /> : null}
+      <p className="mt-8 text-[15px] leading-relaxed text-[var(--color-mute)]">{p.pitch}</p>
+      <ul className="mt-8 flex-1 border-t border-[var(--color-line)] text-[15px] leading-relaxed text-abalone">
+        {p.includes.map((line) => (
+          <li key={line} className="flex gap-4 border-b border-[var(--color-line)] py-3.5">
+            <span aria-hidden="true" className="mt-[0.7em] inline-block h-px w-3 shrink-0 bg-teal" />
+            <span>{line}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="label mt-6 leading-relaxed text-[var(--color-faint)]">{p.not}</p>
+      <a href="#book" className={`mt-8 ${p.featured ? "btn-primary" : "btn-outline"}`}>
+        Book this
+        <Arrow />
+      </a>
+    </Reveal>
+  );
+}
+
+export default function Packages() {
+  return (
+    <section id="packages" className="relative border-t border-[var(--color-line)] py-20 md:py-32">
+      <div className="wrap">
+        <Reveal className="grid gap-8 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-8">
+            <p className="label text-[var(--color-faint)]">Packages</p>
+            <h2 className="h-display mt-6 text-[clamp(2.6rem,5.4vw,4.75rem)] text-abalone">
+              <span className="lg:block">A simple package to start. </span>
+              <span className="lg:block">Builds become hourly.</span>
+            </h2>
+          </div>
+          <p className="body-lg max-w-[30rem] text-[var(--color-mute)] lg:col-span-4 lg:col-start-9 lg:self-end lg:pb-2">
+            No fake "was $18k" line. Start is a flat number after a 20-minute
+            call. Everything past that is $175 an hour with the hours written
+            down first.
+          </p>
+        </Reveal>
+
+        <div className="mt-16 grid border-b border-[var(--color-line)] lg:mt-24 lg:grid-cols-3 lg:border-t lg:border-t-[var(--color-line)]">
+          {packages.map((p, i) => (
+            <Tier key={p.id} p={p} i={i} />
+          ))}
+        </div>
+
+        {/* Custom tier */}
+        <Reveal className="grid gap-10 border-b border-[var(--color-line)] py-12 lg:grid-cols-12 lg:gap-6 lg:py-16">
+          <div className="lg:col-span-5">
+            <p className="label text-teal">04</p>
+            <h3 className="h-display mt-6 text-[clamp(2.6rem,5vw,3.5rem)] text-abalone">Custom</h3>
+            <p className="body-lg mt-6 max-w-[36rem] text-[var(--color-mute)]">
               Command-class. A full operating system scoped to your
               business — CRM, lead bots, dashboards, AI agents, and
               whatever the operation needs to run without guessing. Not just
@@ -132,14 +141,15 @@ export default function Packages() {
               retainer so it keeps moving. Same $175 an hour. You will know
               the number before we build.
             </p>
+            <a href="#book" className="btn-outline is-teal mt-10">
+              Talk Custom
+              <Arrow />
+            </a>
           </div>
-          <a
-            href="#book"
-            className="btn-lift border border-teal px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-teal hover:bg-teal hover:text-ink"
-          >
-            Talk Custom
-          </a>
-        </div>
+          <div className="lg:col-span-6 lg:col-start-7 lg:self-center">
+            <FlowGraph nodes={CUSTOM_FLOW} width={660} height={150} duration={7.5} className="pt-6" />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
