@@ -9,10 +9,73 @@
       name="description"
       content="Sites, bots, and systems for local businesses in South Florida. Honest work, no guru language. Built in Pompano Beach."
     />
-    <meta name="theme-color" content="#050505" />
-    <link href="https://api.fontshare.com/v2/css?f[]=boska@400,500,700&f[]=switzer@400,500,600&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#080808" />
+    <link rel="preload" href="/fonts/press-start-2p-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" as="image" type="image/webp" imagesrcset="/momentum-logo-204.webp 204w, /momentum-logo-408.webp 408w" imagesizes="(min-width: 768px) 187px, 153px" />
   </head>
   <body>
+    <!-- Pixel-arc loader. Lives in the HTML so it paints on the first frame,
+         before the app bundle arrives. The app tells it when to leave. -->
+    <div id="boot" class="boot" role="status" aria-live="polite" aria-busy="true">
+      <img class="boot-scene" src="/loader/scene-bg.jpg" alt="" width="480" height="320" fetchpriority="high" decoding="async" />
+      <div class="boot-vignette" aria-hidden="true"></div>
+      <span class="boot-sr">Momentum is loading</span>
+      <div class="boot-stage"><p class="boot-title" aria-hidden="true"></p></div>
+    </div>
+    <script>
+      (function () {
+        var KEY = "momentum:booted";
+        var MIN_MS = 1800; // exit starts here; 600ms fade -> ~2.4s total
+        var MIN_REDUCED_MS = 1100;
+        var EXIT_MS = 600;
+        var el = document.getElementById("boot");
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var seen = false;
+        try { seen = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
+        var s = { app: false, min: false, done: false };
+
+        function reveal() {
+          if (s.done) return;
+          s.done = true;
+          window.dispatchEvent(new Event("momentum:reveal"));
+          if (!el) return;
+          el.classList.add("is-leaving");
+          setTimeout(function () {
+            el.remove();
+            try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+          }, reduce ? 0 : EXIT_MS);
+        }
+        window.__momentumBoot = {
+          revealed: function () { return s.done; },
+          appReady: function () { s.app = true; if (s.min) reveal(); },
+        };
+
+        if (seen) { el.remove(); el = null; s.min = true; return; }
+
+        // Build the arc: 8 letters, each an 11-layer extrusion plus a face.
+        var title = "MOMENTUM", depth = 11, mid = (title.length - 1) / 2, html = "";
+        for (var i = 0; i < title.length; i++) {
+          var c = title[i], f = i - mid, layers = "";
+          for (var l = 0; l < depth; l++) {
+            layers += '<span class="boot-layer" style="transform:translate(' + l + "px," + l + "px);color:" + (l > depth - 3 ? "#070707" : "#161616") + '">' + c + "</span>";
+          }
+          html += '<span class="boot-wave" style="animation-delay:' + (i * 0.09).toFixed(2) + 's"><span class="boot-tilt" style="transform:rotate(' + (f * 7.2).toFixed(1) + "deg) translateY(" + (f * f * 4.1).toFixed(1) + 'px)">' + layers + '<span class="boot-face">' + c + "</span></span></span>";
+        }
+        el.querySelector(".boot-title").innerHTML = html;
+
+        var shown = false;
+        function show() { if (!shown) { shown = true; el.classList.add("is-ready"); } }
+        if (document.fonts && document.fonts.load) document.fonts.load('400 64px "Press Start 2P"').then(show, show);
+        setTimeout(show, 700);
+
+        setTimeout(function () {
+          s.min = true;
+          if (s.app) reveal();
+        }, Math.max(0, (reduce ? MIN_REDUCED_MS : MIN_MS) - performance.now()));
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
