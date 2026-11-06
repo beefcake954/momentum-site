@@ -562,3 +562,44 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .work-rule, .work-name { transition: none; }
 }
+
+/* ── Holographic boat (marine) ── */
+.holo-host { perspective: 1400px; }
+.holo-tilt { transform-style: preserve-3d; will-change: transform; }
+.holo .hb-hull { stroke: rgba(94, 234, 212, 0.85); stroke-width: 2.2; }
+.holo .hb-detail { stroke: rgba(232, 228, 217, 0.45); stroke-width: 1.8; }
+.holo .hb-grid { stroke: rgba(20, 184, 166, 0.3); stroke-width: 1.4; opacity: 0; transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.9s; }
+.holo .hb-water { stroke: rgba(232, 228, 217, 0.12); stroke-width: 1.6; }
+.holo.is-drawn .hb-grid { opacity: 1; }
+@media (max-width: 767px) {
+  /* the drawing renders ~0.18x on phones; keep hairlines ~1px */
+  .holo .hb-hull { stroke-width: 5; }
+  .holo .hb-detail { stroke-width: 4; }
+  .holo .hb-grid { stroke-width: 3; }
+  .holo .hb-water { stroke-width: 4; }
+}
+.holo .hb-sheen, .holo .hb-scanline { opacity: 0; transform-box: view-box; }
+/* one scanline pass after the grid lands (phones and desktop) */
+@keyframes hb-scan {
+  0% { opacity: 0; transform: translateY(380px); }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(880px); }
+}
+.holo.is-drawn .hb-scanline { animation: hb-scan 1.8s cubic-bezier(0.45, 0, 0.55, 1) 2.7s both; }
+/* desktop only: slow iridescent sheen sweeping across the hull */
+@keyframes hb-sheen {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 1; }
+  60% { opacity: 1; transform: translateX(2700px); }
+  61%, 100% { opacity: 0; transform: translateX(2700px); }
+}
+@media (min-width: 768px) and (hover: hover) {
+  .holo.is-drawn .hb-sheen { animation: hb-sheen 9s cubic-bezier(0.45, 0, 0.55, 1) 4.6s infinite; }
+}
+.holo.is-paused .hb-sheen { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .holo .hb-grid { transition: none; opacity: 1; }
+  .holo .hb-sheen, .holo .hb-scanline { animation: none !important; opacity: 0; }
+  .holo-tilt { transform: none !important; }
+}
